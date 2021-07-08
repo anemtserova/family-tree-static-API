@@ -36,7 +36,7 @@ def handle_hello():
     }
     return jsonify(response_body), 200
 
-# MY POST METHOD DOESN'T WORK!!!!!!!!!!
+
 @app.route('/member', methods=['POST'])
 def post_member():
     new_member = request.get_json()
@@ -48,13 +48,22 @@ def post_member():
     return jsonify(response_body), 200
 
 @app.route('/member/<int:id>', methods=['DELETE'])
-def del_memeber(id):
+def del_member(id):
     deleted = jackson_family.delete_member(id)
+    members = jackson_family.get_all_members()
     response_body = {
         "deleted": deleted,
         "family": members
     }
     return jsonify(response_body), 200
+
+@app.route('/descendants/<int:id>')
+def get_descendants(id):
+    descendants = jackson_family.get_descendants(id)
+    response_body = {
+        "Descendants": descendants,
+    }
+    return jsonify(response_body ), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
